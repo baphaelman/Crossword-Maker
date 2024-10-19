@@ -104,7 +104,6 @@ class Board:
     # inserts char at row and col index
     def insert_char(self, char: str, row: int, col: int) -> None:
         self.board[col][row] = char
-        print(self.cols, col, char)
         self.cols[col] = char
         self.rows[row] = char
     
