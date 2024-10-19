@@ -1,5 +1,4 @@
 from typing import List
-from parser import common_words
 from Board import Board
 
 class Crossword:

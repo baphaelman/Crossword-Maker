@@ -1,3 +1,5 @@
+from parser import common_words
+
 class Board:
     # self.board: list of lists representing the board (columns of rows)
     # self.cols: list of strings representing columns [ "happy", "j00k", ]
@@ -66,14 +68,43 @@ class Board:
             rowString += "\n"
             
         return rowString
+    
+    # returns whether the partially completed board is valid, using words from common_words
+    def valid_board(self):
+        return self.valid_cols() and self.transpose().cols()
+    
+    def valid_cols(self):
+        # splits self.cols into each word
+        col_words = []
+        for word in self.cols:
+            col_words.extend(word.split("#"))
+        
+        # checks if each word is potentially valid
+        for word in col_words:
+            valid_words = [common_word for common_word in common_words if len(common_word) == len(word)]
+            for i in range(len(word)):
+                char = word[i]
+                if char != "0":
+                    valid_words = [word for word in valid_words if word[i] == char]
+                if not valid_words:
+                    return False
+        return True
 
 def main():
-    cols = ["abc", "def", "ghi"]
+    cols = ["abc", "d#f", "ghi"]
     rows = ["adg", "beh", "cfi"]
     b = Board(3, cols, rows)
     print(b)
+    b.valid_cols()
+    print(b.cols)
+
+def valid_test():
+    cols = ["car", "ago", "0qz"]
+    rows = ["caq", "age", "row"]
+    b = Board(3, cols, rows)
+    for word in cols:
+        print(f"word: {word}")
+    print(b.valid_cols())
 
 if __name__ == "__main__":
-    b = Board(3)
-    print(b)
-    main()
+    valid_test()
