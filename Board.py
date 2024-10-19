@@ -40,7 +40,7 @@ class Board:
         
         else: # initializing new board
             # initialize cols
-            self.cols = []
+            self.cols = [] # this btw
 
             word = ""
             for _ in range(size):
