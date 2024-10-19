@@ -1,4 +1,5 @@
 from typing import List
+from parser import common_words
 
 class Crossword:
     # self.size: size of crossword (ex. 5 -> 5x5)
@@ -10,7 +11,7 @@ class Crossword:
         self.words = words
 
         # initialize board with # along border, 0 in the center
-        self.board = []
+        self.board = [] # list of columns, which are lists of row elements
         for col in range(size + 2):
             row_builder = []
             for row in range(size + 2):
@@ -30,4 +31,4 @@ class Crossword:
                 rowString += " "
             rowString += "\n"
             
-        return(rowString)
+        return rowString
