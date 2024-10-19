@@ -149,7 +149,7 @@ class Board:
                     new_board = board.clone()
                     for k in range (0, len(word)):
                         new_board.insert_char(word[k], j + k, i)
-                    #if new_board.valid_board():
+                    #new_board.valid_board():
                     yield new_board
                         
         #word is across
@@ -158,18 +158,14 @@ class Board:
             for j in range (0, len(board.cols) - len(word) + 1):
                 valid = True
                 for k in range (0, len(word)):
-                    print(99)
-                    print(board)
-                    print(board.get(i, j + k))
                     if (board.get(i, j + k)) != word[k] and board.get(i , j + k) != "0":
                         valid = False
                 if valid:
-                    print(1)
                     new_board = board.clone()
                     for k in range (0, len(word)):
                         new_board.insert_char(word[k], i,  j + k)
                         
-                    #if new_board.valid_board():
+                    #new_board.valid_board():
                     yield new_board
        
 
