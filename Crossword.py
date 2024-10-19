@@ -28,11 +28,13 @@ class Crossword:
     def generate_board(self, word):
         board = self.board
         #word is down
+        print(len(board.cols))
+        print(len(board.rows))
         for i in range (1, len(board.cols)):
             for j in range (1, len(board.rows) - len(word)):
                 valid = True
                 for k in range (0, len(word)):
-                    if (board.get(j + k,i)) != word[k] and board.get(j + k, i) != 0:
+                    if (board.get(j + k,i)) != word[k] and board.get(j + k, i) != "0":
                         valid = False
                 if valid:
                     new_board = board.clone()
@@ -46,7 +48,7 @@ class Crossword:
             for j in range (1, len(board.cols) - len(word)):
                 valid = True
                 for k in range (0, len(word)):
-                    if (board.get(i, j + k)) != word[k] and board.get(i, j + k) != 0:
+                    if (board.get(i, j + k)) != word[k] and board.get(i, j + k) != "0":
                         valid = False
                 if valid:
                     new_board = board.clone()
