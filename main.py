@@ -1,5 +1,6 @@
 from Crossword import Crossword
 
+
 def main() -> None:
     crossword = Crossword(3, [])
     print(crossword)
