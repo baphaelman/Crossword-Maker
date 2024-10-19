@@ -7,6 +7,9 @@ class Board:
     # self.size: size of inner board
     # self.true_size: size of board, including border
 
+    # METHODS
+    # get(row, col): returns 
+
     def __init__(self, size, cols=None, rows=None):
         self.size = size
         self.true_size = size + 2
@@ -71,7 +74,8 @@ class Board:
     
     # returns whether the partially completed board is valid, using words from common_words
     def valid_board(self):
-        return self.valid_cols() and self.transpose().cols()
+        transpose = self.transpose()
+        return self.valid_cols() and transpose.valid_cols()
     
     def valid_cols(self):
         # splits self.cols into each word
@@ -89,6 +93,16 @@ class Board:
                 if not valid_words:
                     return False
         return True
+    
+    def insert(self, char: str, row: int, col: int) -> None:
+        # inserts char at row and col index
+        print('a')
+
+    def clone(self):
+        return Board(self.size, self.cols, self.rows)
+    
+    def transpose(self):
+        return Board(self.size, self.rows, self.cols)
 
 def main():
     cols = ["abc", "d#f", "ghi"]
@@ -99,12 +113,16 @@ def main():
     print(b.cols)
 
 def valid_test():
-    cols = ["car", "ago", "0qz"]
-    rows = ["caq", "age", "row"]
-    b = Board(3, cols, rows)
-    for word in cols:
-        print(f"word: {word}")
-    print(b.valid_cols())
+    bad_cols = ["car", "ago", "0qz"]
+    bad_rows = ["ca0", "agq", "roz"]
+    bad_b = Board(3, bad_cols, bad_rows)
+    bad_b.valid_board
+
+    bad_cols = ["car", "ago", "0qz"]
+    bad_rows = ["can", "agq", "roz"]
+    bad_b = Board(3, bad_cols, bad_rows)
+    bad_b.valid_board
+
 
 if __name__ == "__main__":
     valid_test()
