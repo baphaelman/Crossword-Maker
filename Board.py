@@ -1,14 +1,19 @@
 from parser import common_words
 
 class Board:
+    # VARIABLES
     # self.board: list of lists representing the board (columns of rows)
-    # self.cols: list of strings representing columns [ "happy", "j00k", ]
+    # self.cols: list of strings representing columns [ "happy", "j00ky"]
     # self.rows: list of strings representing rows
     # self.size: size of inner board
     # self.true_size: size of board, including border
 
-    # METHODS
-    # get(row, col): returns 
+    # INSTANCE METHODS
+    # get(row, col) -> str: returns the entry at row and col indices
+    # valid_board() -> bool: returns whether the partially-completed board is valid, considering common_words
+    # insert(char, row, col) -> None: inserts char at row and col indices
+    # clone() -> Board: returns a copy of the board
+    # transpose() -> Board: returns a transposed copy of the board
 
     def __init__(self, size, cols=None, rows=None):
         self.size = size
@@ -73,10 +78,10 @@ class Board:
         return rowString
     
     # returns whether the partially completed board is valid, using words from common_words
-    def valid_board(self):
+    def valid_board(self) -> bool:
         transpose = self.transpose()
         return self.valid_cols() and transpose.valid_cols()
-    
+
     def valid_cols(self):
         # splits self.cols into each word
         col_words = []
@@ -94,14 +99,18 @@ class Board:
                     return False
         return True
     
+    # inserts char at row and col index
     def insert(self, char: str, row: int, col: int) -> None:
-        # inserts char at row and col index
-        print('a')
-
-    def clone(self):
+        self.board[col][row] = char
+        self.cols[col] = char
+        self.rows[row] = char
+    
+    # returns a copy of the board
+    def clone(self) -> 'Board':
         return Board(self.size, self.cols, self.rows)
     
-    def transpose(self):
+    # returns a transposed copy of the board
+    def transpose(self) -> 'Board':
         return Board(self.size, self.rows, self.cols)
 
 def main():
@@ -116,12 +125,12 @@ def valid_test():
     bad_cols = ["car", "ago", "0qz"]
     bad_rows = ["ca0", "agq", "roz"]
     bad_b = Board(3, bad_cols, bad_rows)
-    bad_b.valid_board
+    print(bad_b.valid_board())
 
-    bad_cols = ["car", "ago", "0qz"]
-    bad_rows = ["can", "agq", "roz"]
-    bad_b = Board(3, bad_cols, bad_rows)
-    bad_b.valid_board
+    cols = ["car", "ago", "new"]
+    rows = ["can", "age", "row"]
+    b = Board(3, cols, rows)
+    print(b.valid_board())
 
 
 if __name__ == "__main__":
