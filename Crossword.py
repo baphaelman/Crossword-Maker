@@ -9,6 +9,22 @@ class Crossword:
                     row_builder.append("#")
                 elif col == 0 or col == size + 1:
                     row_builder.append("#")
-                row_builder.append(None)
+                else: 
+                    row_builder.append(0)
             self.board.append(row_builder)
-        print(self.board)
+        print(self)
+
+    def __repr__(self):
+        rowString = ""
+        for row in self.board:
+            for item in row:
+                rowString += str(item)
+                rowString += " "
+            rowString += "\n"
+            
+        return(rowString)
+        
+
+    
+
+            
