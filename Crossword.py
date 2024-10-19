@@ -32,3 +32,4 @@ class Crossword:
             rowString += "\n"
             
         return rowString
+    
