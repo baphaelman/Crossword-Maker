@@ -54,7 +54,13 @@ class Crossword:
                         new_board.insert(i,  j + k , word[k])
                         if new_board.valid_board():
                             yield new_board
-        
+
+def main():
+    b = Crossword(3, [])
+    generator = b.generate_board("can")
+    print(next(generator))
+if __name__ == "__main__":
+    main()
 
 
 
