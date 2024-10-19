@@ -6,5 +6,3 @@ with open('words.txt', 'r') as file:
         line = line.strip()
         if len(line) > 2:
             common_words.append(line)
-
-
