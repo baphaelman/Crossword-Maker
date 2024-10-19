@@ -83,6 +83,7 @@ class Board:
         col_words = []
         for word in self.cols:
             col_words.append(word.split("#"))
+        print(col_words)
         
         # checks if each word is potentially valid
         for word in col_words:
@@ -91,8 +92,8 @@ class Board:
                 char = word[i]
                 if char != "0":
                     valid_words = [word for word in valid_words if word[i] == char]
-                if not valid_words:
-                    return False
+                    if not valid_words:
+                        return False
         return True
 
     # inserts char at row and col index
@@ -120,11 +121,11 @@ class Board:
     
     # returns a copy of the board
     def clone(self) -> 'Board':
-        return Board(self.size, self.cols, self.rows, self.board)
+        return Board(self.size, list(self.cols), list(self.rows), list(self.board))
     
     # returns a transposed copy of the board
     def transpose(self) -> 'Board':
-        return Board(self.size, self.rows, self.cols, self.board)
+        return Board(self.size, list(self.rows), list(self.cols), list(self.board))
 
 def main():
     cols = ["abc", "d#f", "ghi"]
@@ -138,6 +139,7 @@ def valid_test():
     bad_cols = ["car", "ago", "0qz"]
     bad_rows = ["ca0", "agq", "roz"]
     bad_b = Board(3, bad_cols, bad_rows)
+    print(bad_b)
     print(bad_b.valid_board())
 
     cols = ["car", "ago", "new"]
