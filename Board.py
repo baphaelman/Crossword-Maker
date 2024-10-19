@@ -1,12 +1,17 @@
 from parser import common_words
 
 class Board:
-    # VARIABLES
+    # STATIC VARIABLES
+    # board.ROW: represents row direction
+    # board.COLUMN: you can figure this one out bro
+    ROW = True
+    COLUMN = False
+
+    # INSTANCE VARIABLES
     # self.board: list of lists representing the board (columns of rows)
-    # self.cols: list of strings representing columns [ "#######", "#happy#", "#j00ky#", ...]
+    # self.cols: list of strings representing columns ["happy", "j00ky", ...]
     # self.rows: list of strings representing rows
-    # self.size: size of inner board
-    # self.true_size: size of board, including border
+    # self.size: nxn size of board
 
     # INSTANCE METHODS
     # get(row, col) -> str: returns the entry at row and col indices
@@ -14,60 +19,46 @@ class Board:
     # insert(char, row, col) -> None: inserts char at row and col indices
     # clone() -> Board: returns a copy of the board
     # transpose() -> Board: returns a transposed copy of the board
-    ROW = True
-    COLUMN = False
 
-    def __init__(self, size, cols=None, rows=None):
+    def __init__(self, size, cols=None, rows=None, board=None):
         self.size = size
-        self.true_size = size + 2
         if cols and rows: # inputting existing board
             self.cols = cols
             self.rows = rows
             
-            self.board = []
-            for i in range(self.true_size):
-                col_builder = []
-                for j in range(self.true_size):
-                    if i == 0 or i == self.true_size - 1:
-                        col_builder.append("#")
-                    elif j == 0 or j == self.true_size - 1:
-                        col_builder.append("#")
-                    else:
-                        word = self.rows[j - 1]
-                        char = word[i - 1]
+            if board:
+                self.board = board
+            else:
+                self.board = []
+                for i in range(self.size):
+                    col_builder = []
+                    for j in range(self.size):
+                        word = self.rows[j]
+                        char = word[i]
                         col_builder.append(char)
-                self.board.append(col_builder)
+                    self.board.append(col_builder)
+        
         else: # initializing new board
             # initialize cols
             self.cols = []
 
-            word = "#"
-            border = "#"
-            for _ in range(1, size + 1):
+            word = ""
+            for _ in range(size):
                 word += "0"
-                border += "#"
-            word += "#"
-            border += "#"
             
-            self.cols.append(border)
             for _ in range(1, size + 1):
                 self.cols.append(word)
-            self.cols.append(border)
-            
+
             # initialize rows
             self.rows = list(self.cols)
 
             # initialize board with # along border, 0 in the center
             self.board = []
-            for col in range(size + 2):
-                row_builder = []
-                for row in range(size + 2):
-                    if col == 0 or col == size + 1:
-                        row_builder.append("#")
-                    elif row == 0 or row == size + 1:
-                        row_builder.append("#")
-                    else:
-                        row_builder.append(0)
+            row_builder = []
+            for _ in range(size):
+                row_builder.append("0")
+            
+            for _ in range(size):
                 self.board.append(row_builder)
     
     
@@ -77,8 +68,8 @@ class Board:
     
     def __repr__(self):
         rowString = ""
-        for  i in range(self.true_size):
-            for j in range(self.true_size):
+        for  i in range(self.size):
+            for j in range(self.size):
                 rowString += str(self.get(i, j))
                 rowString += " "
             rowString += "\n"
@@ -113,18 +104,30 @@ class Board:
     # inserts char at row and col index
     def insert_char(self, char: str, row: int, col: int) -> None:
         self.board[col][row] = char
+        print(self.cols, col, char)
         self.cols[col] = char
         self.rows[row] = char
     
-    def insert_word(self, word: str, row: int, col: int, direction: )
+    def insert_word(self, word: str, row: int, col: int, direction: bool) -> None:
+        if direction:
+            row_change = 1
+            col_change = 0
+        else:
+            row_change = 0
+            col_change = 1
+
+        for char in word:
+            self.insert_char(char, row, col)
+            row += row_change
+            col += col_change
     
     # returns a copy of the board
     def clone(self) -> 'Board':
-        return Board(self.size, self.cols, self.rows)
+        return Board(self.size, self.cols, self.rows, self.board)
     
     # returns a transposed copy of the board
     def transpose(self) -> 'Board':
-        return Board(self.size, self.rows, self.cols)
+        return Board(self.size, self.rows, self.cols, self.board)
 
 def main():
     cols = ["abc", "d#f", "ghi"]
@@ -143,10 +146,21 @@ def valid_test():
     cols = ["car", "ago", "new"]
     rows = ["can", "age", "row"]
     b = Board(3, cols, rows)
+    print(b)
     print(b.valid_board())
+    print(b.transpose())
 
     c = Board(3)
+    print(c)
     print(c.valid_cols())
+
+def insert_test():
+    cols = ["c00", "a00", "n00"]
+    rows = ["can", "000", "000"]
+    b = Board(3, cols, rows)
+    b.insert_word("age", 1, 2, Board.COLUMN)
+    print(b)
+
 
 if __name__ == "__main__":
     valid_test()
