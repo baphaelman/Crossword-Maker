@@ -125,6 +125,45 @@ class Board:
     # returns a transposed copy of the board
     def transpose(self) -> 'Board':
         return Board(self.size, self.rows, self.cols, self.board)
+    
+    def generate_board(self, word):
+        board = self
+        
+    
+        #word is down
+        for i in range (0, len(board.cols)):
+            for j in range (0, len(board.rows) - len(word) + 1):
+                valid = True
+                for k in range (0, len(word)):
+                    if (board.get(j + k,i)) != word[k] and board.get(j + k, i) != "0":
+                        valid = False
+                if valid:
+                    new_board = board.clone()
+                    for k in range (0, len(word)):
+                        new_board.insert_char(word[k], j + k, i)
+                    #if new_board.valid_board():
+                    yield new_board
+                        
+        #word is across
+        for i in range (0, len(board.rows)):
+            
+            for j in range (0, len(board.cols) - len(word) + 1):
+                valid = True
+                for k in range (0, len(word)):
+                    print(99)
+                    print(board)
+                    print(board.get(i, j + k))
+                    if (board.get(i, j + k)) != word[k] and board.get(i , j + k) != "0":
+                        valid = False
+                if valid:
+                    print(1)
+                    new_board = board.clone()
+                    for k in range (0, len(word)):
+                        new_board.insert_char(word[k], i,  j + k)
+                        
+                    #if new_board.valid_board():
+                    yield new_board
+       
 
 def main():
     cols = ["abc", "d#f", "ghi"]
