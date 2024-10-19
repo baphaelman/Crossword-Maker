@@ -21,7 +21,6 @@ class Crossword:
                 else:
                     row_builder.append(0)
             self.board.append(row_builder)
-        print(self.board)
     
     def __repr__(self):
         rowString = ""
