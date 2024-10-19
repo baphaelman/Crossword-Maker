@@ -34,7 +34,7 @@ class Board:
                     column_list = []
                     for row in range(size):
                         column_list.append(cols[col][row])
-                    self.board.append(column_list)
+                    self.board.append(list(column_list))
         else: # initializing new board
             # initialize cols
             self.cols = []
@@ -56,7 +56,7 @@ class Board:
                 row_builder.append("0")
             
             for _ in range(size):
-                self.board.append(row_builder)
+                self.board.append(list(row_builder))
     
     
     # returns character at row and col
@@ -82,10 +82,7 @@ class Board:
         # splits self.cols into each word
         col_words = []
         for word in self.cols:
-            extension = word.split("#")
-            for element in extension:
-                if element:
-                    col_words.append(element)
+            col_words.append(word.split("#"))
         
         # checks if each word is potentially valid
         for word in col_words:
@@ -97,17 +94,16 @@ class Board:
                 if not valid_words:
                     return False
         return True
-    
-    def change_char_at_index(s: str, i: int, new_char: str) -> str:
-        if not (0 <= i < len(s)):
-            raise IndexError("Index out of range")
-        return s[:i] + new_char + s[i+1:]
 
     # inserts char at row and col index
     def insert_char(self, char: str, row: int, col: int) -> None:
+        print(self.board)
         self.board[col][row] = char
+        print(self.board)
+
         col_word = self.cols[col]
         self.cols[col] = col_word[:row] + char + col_word[row + 1:]
+
         row_word = self.rows[row]
         self.rows[row] = row_word[:col] + char + row_word[col + 1:]
     
@@ -174,6 +170,11 @@ def insert_test():
     b.insert_word("age", 0, 1, Board.COLUMN)
     print(b)
 
+def test_insert_char():
+    b = Board(3)
+    b.insert_char("a", 1, 1)
+    print(b)
+
 
 if __name__ == "__main__":
-    insert_test()
+    test_insert_char()
