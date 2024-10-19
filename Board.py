@@ -97,9 +97,7 @@ class Board:
 
     # inserts char at row and col index
     def insert_char(self, char: str, row: int, col: int) -> None:
-        print(self.board)
         self.board[col][row] = char
-        print(self.board)
 
         col_word = self.cols[col]
         self.cols[col] = col_word[:row] + char + col_word[row + 1:]
@@ -147,11 +145,10 @@ def valid_test():
     b = Board(3, cols, rows)
     print(b)
     print(b.valid_board())
-    print(b.transpose())
 
     c = Board(3)
     print(c)
-    print(c.valid_cols())
+    print(c.valid_board())
 
 def valid_test2():
     cols = ["car", "ago", "new"]
@@ -168,13 +165,14 @@ def insert_test():
     # 0 0 0
     b = Board(3, cols, rows)
     b.insert_word("age", 0, 1, Board.COLUMN)
+    b.insert_word("ago", 1, 0, Board.ROW)
     print(b)
 
-def test_insert_char():
+def insert_char_test():
     b = Board(3)
     b.insert_char("a", 1, 1)
     print(b)
 
 
 if __name__ == "__main__":
-    test_insert_char()
+    valid_test()
