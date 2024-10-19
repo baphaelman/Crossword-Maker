@@ -26,21 +26,10 @@ class Board:
             self.cols = cols
             self.rows = rows
             
-            if board:
-                self.board = board
-            else:
-                self.board = []
-                for i in range(self.size):
-                    col_builder = []
-                    for j in range(self.size):
-                        word = self.rows[j]
-                        char = word[i]
-                        col_builder.append(char)
-                    self.board.append(col_builder)
-        
+            self.board = board
         else: # initializing new board
             # initialize cols
-            self.cols = [] # this btw
+            self.cols = []
 
             word = ""
             for _ in range(size):
