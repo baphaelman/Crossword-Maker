@@ -3,7 +3,7 @@ from parser import common_words
 class Board:
     # VARIABLES
     # self.board: list of lists representing the board (columns of rows)
-    # self.cols: list of strings representing columns [ "happy", "j00ky"]
+    # self.cols: list of strings representing columns [ "#######", "#happy#", "#j00ky#", ...]
     # self.rows: list of strings representing rows
     # self.size: size of inner board
     # self.true_size: size of board, including border
@@ -39,15 +39,22 @@ class Board:
             # initialize cols
             self.cols = []
 
-            word = ""
+            word = "#"
+            border = "#"
             for _ in range(1, size + 1):
                 word += "0"
+                border += "#"
+            word += "#"
+            border += "#"
             
+            self.cols.append(border)
             for _ in range(1, size + 1):
                 self.cols.append(word)
+            self.cols.append(border)
             
             # initialize rows
             self.rows = list(self.cols)
+            print(self.cols)
 
             # initialize board with # along border, 0 in the center
             self.board = []
@@ -86,7 +93,11 @@ class Board:
         # splits self.cols into each word
         col_words = []
         for word in self.cols:
-            col_words.extend(word.split("#"))
+            extension = word.split("#")
+            for element in extension:
+                if element:
+                    col_words.append(element)
+        print(col_words)
         
         # checks if each word is potentially valid
         for word in col_words:
@@ -132,6 +143,9 @@ def valid_test():
     b = Board(3, cols, rows)
     print(b.valid_board())
 
+    c = Board(3)
+    print(c)
+    print(c.valid_cols())
 
 if __name__ == "__main__":
     valid_test()

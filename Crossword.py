@@ -4,11 +4,11 @@ from Board import Board
 class Crossword:
     # self.size: size of crossword (ex. 5 -> 5x5)
     # self.board: instance of Board
-    # self.words: list of words the user wants to include in the 
+    # self.important_words: list of important_words the user wants to include in the 
 
-    def __init__(self, size: int, words: List[str]):
+    def __init__(self, size: int, important_words: List[str]):
         self.size = size
-        self.words = words
+        self.important_words = important_words
 
         self.board = Board(size)
     
@@ -22,17 +22,14 @@ class Crossword:
             
         return rowString
     
-    def valid_board(self):
-        return self.valid_rows() and self.valid_columns()
-    
     def generate_board(self, word):
         board = self.board
         #word is down
-        for i in range (1, len(board.cols)):
+        for i in range (1, len(board.cols) + 1):
             for j in range (1, len(board.rows) - len(word)):
                 valid = True
                 for k in range (0, len(word)):
-                    if (board.get(j + k,i)) != word[k] and board.get(j + k, i) != 0:
+                    if (board.get(j + k,i)) != word[k] and board.get(j + k, i) != "0":
                         valid = False
                 if valid:
                     new_board = board.clone()
@@ -59,6 +56,7 @@ def main():
     b = Crossword(3, [])
     generator = b.generate_board("can")
     print(next(generator))
+
 if __name__ == "__main__":
     main()
 
