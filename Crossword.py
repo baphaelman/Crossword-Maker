@@ -34,14 +34,12 @@ class Crossword:
                         valid = False
                 if valid:
                     new_board = board.clone()
-                    print(50)
+                    print(1)
                     print(new_board)
-                    print(22)
                     for k in range (0, len(word)):
                         new_board.insert_char(word[k], j + k, i)
-                    print(40)
-                    print(new_board)
-                    print(30)
+                        print(new_board)
+                    print(2)
                     if new_board.valid_board():
                         yield new_board
                         
