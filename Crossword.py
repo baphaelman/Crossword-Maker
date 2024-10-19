@@ -34,28 +34,13 @@ class Crossword:
                         valid = False
                 if valid:
                     new_board = board.clone()
-                    print(1)
-                    print(new_board)
                     for k in range (0, len(word)):
                         new_board.insert_char(word[k], j + k, i)
-                        print(new_board)
-                    print(2)
-                    if new_board.valid_board():
-                        yield new_board
+                    #if new_board.valid_board():
+                    yield new_board
                         
         #word is across
-        for i in range (0, len(board.rows)):
-            for j in range (0, len(board.cols) - len(word) + 1):
-                valid = True
-                for k in range (0, len(word)):
-                    if (board.get(i, j + k)) != word[k] and board.get(i, j + k) != "0":
-                        valid = False
-                if valid:
-                    new_board = board.clone()
-                    for k in range (0, len(word)):
-                        new_board.insert_char(word[k], i , j + k)
-                    if new_board.valid_board():
-                        yield new_board
+        yield from board.transpose().generate_board(word)
 
 def main():
     b = Crossword(3, [])
@@ -64,6 +49,12 @@ def main():
     # print(b.board)
     generator = b.generate_board("can")
     print(next(generator))
+    print(next(generator))
+    print(next(generator))
+    print(next(generator))
+    print(next(generator))
+    print(next(generator))
+    
 
 if __name__ == "__main__":
     main()

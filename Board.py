@@ -97,9 +97,7 @@ class Board:
 
     # inserts char at row and col index
     def insert_char(self, char: str, row: int, col: int) -> None:
-        print(self.board)
         self.board[col][row] = char
-        print(self.board)
 
         col_word = self.cols[col]
         self.cols[col] = col_word[:row] + char + col_word[row + 1:]
