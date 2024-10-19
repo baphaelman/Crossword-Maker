@@ -26,7 +26,15 @@ class Board:
             self.cols = cols
             self.rows = rows
             
-            self.board = board
+            if board:
+                self.board = board
+            else:
+                self.board = []
+                for col in range(size):
+                    column_list = []
+                    for row in range(size):
+                        column_list.append(cols[col][row])
+                    self.board.append(column_list)
         else: # initializing new board
             # initialize cols
             self.cols = []
@@ -90,15 +98,21 @@ class Board:
                     return False
         return True
     
+    def change_char_at_index(s: str, i: int, new_char: str) -> str:
+        if not (0 <= i < len(s)):
+            raise IndexError("Index out of range")
+        return s[:i] + new_char + s[i+1:]
+
     # inserts char at row and col index
     def insert_char(self, char: str, row: int, col: int) -> None:
         self.board[col][row] = char
-        print(self.cols, col, char)
-        self.cols[col] = char
-        self.rows[row] = char
+        col_word = self.cols[col]
+        self.cols[col] = col_word[:row] + char + col_word[row + 1:]
+        row_word = self.rows[row]
+        self.rows[row] = row_word[:col] + char + row_word[col + 1:]
     
     def insert_word(self, word: str, row: int, col: int, direction: bool) -> None:
-        if direction:
+        if not direction:
             row_change = 1
             col_change = 0
         else:
@@ -143,13 +157,23 @@ def valid_test():
     print(c)
     print(c.valid_cols())
 
+def valid_test2():
+    cols = ["car", "ago", "new"]
+    rows = ["can", "age", "row"]
+    b = Board(3, cols, rows)
+    print(b)
+    print(b.valid_board())
+
 def insert_test():
     cols = ["c00", "a00", "n00"]
     rows = ["can", "000", "000"]
+    # c a n
+    # 0 0 0
+    # 0 0 0
     b = Board(3, cols, rows)
-    b.insert_word("age", 1, 2, Board.COLUMN)
+    b.insert_word("age", 0, 1, Board.COLUMN)
     print(b)
 
 
 if __name__ == "__main__":
-    valid_test()
+    insert_test()
