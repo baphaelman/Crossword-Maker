@@ -14,6 +14,8 @@ class Board:
     # insert(char, row, col) -> None: inserts char at row and col indices
     # clone() -> Board: returns a copy of the board
     # transpose() -> Board: returns a transposed copy of the board
+    ROW = True
+    COLUMN = False
 
     def __init__(self, size, cols=None, rows=None):
         self.size = size
@@ -54,7 +56,6 @@ class Board:
             
             # initialize rows
             self.rows = list(self.cols)
-            print(self.cols)
 
             # initialize board with # along border, 0 in the center
             self.board = []
@@ -97,7 +98,6 @@ class Board:
             for element in extension:
                 if element:
                     col_words.append(element)
-        print(col_words)
         
         # checks if each word is potentially valid
         for word in col_words:
@@ -111,10 +111,12 @@ class Board:
         return True
     
     # inserts char at row and col index
-    def insert(self, char: str, row: int, col: int) -> None:
+    def insert_char(self, char: str, row: int, col: int) -> None:
         self.board[col][row] = char
         self.cols[col] = char
         self.rows[row] = char
+    
+    def insert_word(self, word: str, row: int, col: int, direction: )
     
     # returns a copy of the board
     def clone(self) -> 'Board':
@@ -144,7 +146,6 @@ def valid_test():
     print(b.valid_board())
 
     c = Board(3)
-    print(c)
     print(c.valid_cols())
 
 if __name__ == "__main__":
