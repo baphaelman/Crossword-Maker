@@ -121,7 +121,14 @@ class Board:
     
     # returns a copy of the board
     def clone(self) -> 'Board':
-        return Board(self.size, list(self.cols), list(self.rows), list(self.board))
+        new_cols = list(self.cols)
+        new_board = []
+        for col in range(self.size):
+            column_list = []
+            for row in range(self.size):
+                column_list.append(new_cols[col][row])
+            new_board.append(list(column_list))
+        return Board(self.size, list(self.cols), list(self.rows), new_board)
     
     # returns a transposed copy of the board
     def transpose(self) -> 'Board':
@@ -178,17 +185,14 @@ def valid_test():
     bad_cols = ["car", "ago", "0qz"]
     bad_rows = ["ca0", "agq", "roz"]
     bad_b = Board(3, bad_cols, bad_rows)
-    print(bad_b)
     print(bad_b.valid_board())
 
     cols = ["car", "ago", "new"]
     rows = ["can", "age", "row"]
     b = Board(3, cols, rows)
-    print(b)
     print(b.valid_board())
 
     c = Board(3)
-    print(c)
     print(c.valid_board())
 
 def valid_test2():
