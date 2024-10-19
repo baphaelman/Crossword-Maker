@@ -39,7 +39,7 @@ class Crossword:
                     new_board = board.clone()
                     for k in range (0, len(word)):
                         new_board.insert(j + k, i , word[k])
-                        if new_board.isValid():
+                        if new_board.valid_board():
                             yield new_board
                         
         #word is across
@@ -53,7 +53,7 @@ class Crossword:
                     new_board = board.clone()
                     for k in range (0, len(word)):
                         new_board.insert(i,  j + k , word[k])
-                        if new_board.isValid():
+                        if new_board.valid_board():
                             yield new_board
         
 
