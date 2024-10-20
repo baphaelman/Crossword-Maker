@@ -216,4 +216,4 @@ def insert_char_test():
 
 
 if __name__ == "__main__":
-    valid_test()
+    valid_test()    
