@@ -15,7 +15,7 @@ class Board:
 
     # INSTANCE METHODS
     # get(row, col) -> str: returns the entry at row and col indices
-    # valid_board() -> bool: returns whether the partially-completed board is valid, considering common_words
+    # is_valid() -> bool: returns whether the partially-completed board is valid, considering common_words
     # insert(char, row, col) -> None: inserts char at row and col indices
     # clone() -> Board: returns a copy of the board
     # transpose() -> Board: returns a transposed copy of the board
@@ -67,11 +67,11 @@ class Board:
         return rowString
     
     # returns whether the partially completed board is valid, using words from common_words
-    def valid_board(self) -> bool:
+    def is_valid(self) -> bool:
         transpose = self.transpose()
-        return self.valid_cols() and transpose.valid_cols()
+        return self.is_valid_cols() and transpose.is_valid_cols()
 
-    def valid_cols(self):
+    def is_valid_cols(self):
         # splits self.cols into each word
         col_words = []
         for word in self.cols:
@@ -86,6 +86,13 @@ class Board:
                     valid_words = [word for word in valid_words if word[i] == char]
                     if not valid_words:
                         return False
+        return True
+    
+    def is_filled(self) -> bool:
+        for word in self.cols:
+            for letter in word:
+                if letter == "0":
+                    return False
         return True
 
     # inserts char at row and col index
@@ -140,8 +147,8 @@ class Board:
                     new_board = board.clone()
                     for k in range (0, len(word)):
                         new_board.insert_char(word[k], j + k, i)
-                    # if new_board.valid_board():
-                    yield new_board
+                    if new_board.is_valid():
+                        yield new_board
                         
         #word is across
         for i in range (0, len(board.rows)):
@@ -156,8 +163,42 @@ class Board:
                     for k in range (0, len(word)):
                         new_board.insert_char(word[k], i,  j + k)
                         
-                    #new_board.valid_board():
-                    yield new_board
+                    if new_board.is_valid():
+                        yield new_board
+
+    def fill_board(self, row):
+        row_index = row - 1
+        row_word = self.rows[row_index]
+
+        # filtering common_words
+        potential_words = [word for word in common_words if len(word) == self.size]
+        for i in range(len(row_word)):
+            potential_words = [word for word in potential_words if row_word[i] == '0' or word[i] == row_word[i]]
+        
+        original = self.clone()
+        if row_index == 0:
+            for potential_word in potential_words:
+                self.insert_word(potential_word, 0, 0, Board.ROW)
+                if self.is_valid():
+                    if not self.is_filled():
+                        print("this ain't full dummy")
+                        self = original.clone()
+                    else:
+                        print('printing')
+                        print(self.is_filled())
+                        print(self)
+                        print(self.cols)
+                        print(self.rows)
+                        return self
+                else:
+                    self = original.clone()
+            return
+        else:
+            for potential_word in potential_words:
+                self.insert_word(potential_word, row_index, 0, Board.ROW)
+                if self.is_valid():
+                    return self.fill_board(row - 1)
+                self = original.clone()
        
 
 def main():
@@ -170,15 +211,15 @@ def valid_test():
     bad_cols = ["car", "ago", "0qz"]
     bad_rows = ["ca0", "agq", "roz"]
     bad_b = Board(3, bad_cols, bad_rows)
-    print(bad_b.valid_board())
+    print(bad_b.is_valid())
 
     cols = ["car", "ago", "new"]
     rows = ["can", "age", "row"]
     b = Board(3, cols, rows)
-    print(b.valid_board())
+    print(b.is_valid())
 
     c = Board(3)
-    print(c.valid_board())
+    print(c.is_valid())
 
 def insert_test():
     cols = ["c00", "a00", "n00"]
@@ -196,6 +237,23 @@ def insert_char_test():
     b.insert_char("a", 1, 1)
     print(b)
 
+def is_filled_test():
+    b = Board(3)
+    print("expecting False: ", b.is_filled())
+
+    cols = ["c00", "a00", "n00"]
+    rows = ["can", "000", "000"]
+    # c a n
+    # 0 0 0
+    # 0 0 0
+    c = Board(3, cols, rows)
+    print('expecting False: ', c.is_filled())
+
+    cols = ["abc", "d#f", "ghi"]
+    rows = ["adg", "beh", "cfi"]
+    d = Board(3, cols, rows)
+    print("expecting True:", d.is_filled())
+
 
 if __name__ == "__main__":
-    insert_char_test()
+    is_filled_test()

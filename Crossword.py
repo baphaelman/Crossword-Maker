@@ -4,27 +4,51 @@ from Board import Board
 class Crossword:
     # self.size: size of crossword (ex. 5 -> 5x5)
     # self.board: instance of Board
-    # self.important_words: list of important_words the user wants to include in the 
+    # self.important_words: list of important_words the user wants to include in the
 
     def __init__(self, size: int, important_words: List[str]):
         self.size = size
         self.important_words = important_words
 
         self.board = Board(size)
+        original_board = self.board.clone()
 
-        for important_word in important_words:
-            generator = self.board.generate_board(important_word)
+        important_words_generator = self.insert_important_words(important_words)
+        while True:
             try:
-                while True:
-                    self.board = next(generator)
+                self.board = next(important_words_generator)
             except StopIteration:
-                pass
+                break
+            filled_board =  self.board.fill_board(size)
+            if filled_board:
+                self.board = filled_board
+                break
+            else:
+                self.board = original_board.clone()
+
+
+        self.board = next(important_words_generator)
+    
+    def insert_important_words(self, words_list) -> 'Board':
+        if len(words_list) == 1:
+            yield from self.board.generate_board(words_list[0])
+        else:
+            word = words_list[0]
+            generator = self.board.generate_board(word)
+            original = self.board.clone()
+            while True:
+                try:
+                    self.board = next(generator)
+                    yield from self.insert_important_words(words_list[1:])
+                    self.board = original
+                except StopIteration:
+                    break
     
     def __repr__(self):
         rowString = ""
         for row in self.board.rows:
             for item in row:
-                rowString += str(item)
+                rowString += item
                 rowString += " "
             rowString += "\n"
             
@@ -48,7 +72,9 @@ def broken_line_test():
 
 def init_test():
     b = Crossword(3, ["can", "age"])
+    # c = Crossword(4, ["eggs", "pain"])
     print(b)
+    # print(c)
 
 if __name__ == "__main__":
     # main()
