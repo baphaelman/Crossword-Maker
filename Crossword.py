@@ -14,12 +14,15 @@ class Crossword:
 
         for important_word in important_words:
             generator = self.board.generate_board(important_word)
-            while generator.hasNext():
-                self.board = next(generator)
+            try:
+                while True:
+                    self.board = next(generator)
+            except StopIteration:
+                pass
     
     def __repr__(self):
         rowString = ""
-        for row in self.board:
+        for row in self.board.rows:
             for item in row:
                 rowString += str(item)
                 rowString += " "

@@ -128,7 +128,6 @@ class Board:
     
     def generate_board(self, word):
         board = self
-        
     
         #word is down
         for i in range (0, len(board.cols)):
@@ -141,7 +140,7 @@ class Board:
                     new_board = board.clone()
                     for k in range (0, len(word)):
                         new_board.insert_char(word[k], j + k, i)
-                    #new_board.valid_board():
+                    # if new_board.valid_board():
                     yield new_board
                         
         #word is across
