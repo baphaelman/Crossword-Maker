@@ -17,6 +17,7 @@ class Crossword:
         while True:
             try:
                 self.board = next(important_words_generator)
+                self.board.words = important_words
             except StopIteration:
                 break
             filled_board =  self.board.fill_board(size)
@@ -25,11 +26,8 @@ class Crossword:
                 break
             else:
                 self.board = original_board.clone()
-
-
-        self.board = next(important_words_generator)
     
-    def insert_important_words(self, words_list) -> 'Board':
+    def insert_important_words(self, words_list):
         if len(words_list) == 1:
             yield from self.board.generate_board(words_list[0])
         else:
@@ -71,10 +69,10 @@ def broken_line_test():
         print(i)
 
 def init_test():
-    b = Crossword(3, ["can", "age"])
-    # c = Crossword(4, ["eggs", "pain"])
-    print(b)
-    # print(c)
+    # b = Crossword(3, ["can", "age"])
+    c = Crossword(4, ["eggs", "pain"])
+    # print(b)
+    print(c)
 
 if __name__ == "__main__":
     # main()
