@@ -1,5 +1,3 @@
-from parser import common_words
-
 class Board:
     # STATIC VARIABLES
     # board.ROW: represents row direction
@@ -21,7 +19,8 @@ class Board:
     # clone() -> Board: returns a copy of the board
     # transpose() -> Board: returns a transposed copy of the board
 
-    def __init__(self, size, cols=None, rows=None, board=None):
+    def __init__(self, size, cols=None, rows=None, board=None, common_words=None):
+        self.common_words = common_words
         self.size = size
         self.words = []
         if cols and rows: # inputting existing board
@@ -81,7 +80,7 @@ class Board:
             col_words.extend(word.split("#"))
         
         # checks if each word is potentially valid
-        original = [common_word for common_word in common_words if len(common_word) == len(word)]
+        original = self.common_words
         valid_words = list(original)
         for word in col_words:
             for i in range(len(word)):
@@ -132,7 +131,7 @@ class Board:
             for row in range(self.size):
                 column_list.append(new_cols[col][row])
             new_board.append(list(column_list))
-        return Board(self.size, new_cols, list(self.rows), new_board)
+        return Board(self.size, new_cols, list(self.rows), new_board, self.common_words)
     
     # returns a transposed copy of the board
     def transpose(self) -> 'Board':
@@ -143,7 +142,7 @@ class Board:
             for col in range(self.size):
                 column_list.append(new_cols[col][row])
             new_board.append(list(column_list))
-        return Board(self.size, list(self.rows), new_cols, new_board)
+        return Board(self.size, list(self.rows), new_cols, new_board, self.common_words)
     
     def generate_board(self, word):
         board = self
@@ -182,11 +181,12 @@ class Board:
         row_word = self.rows[row_index]
 
         # filtering common_words
-        potential_words = [word for word in common_words if len(word) == self.size and word not in self.words]
+        potential_words = [word for word in self.common_words if word not in self.words]
         for i in range(len(row_word)):
             potential_words = [word for word in potential_words if row_word[i] == '0' or word[i] == row_word[i]]
         
         original = self.clone()
+        first_transposed = None
         if row_index == 0:
             for potential_word in potential_words:
                 self.insert_word(potential_word, 0, 0, Board.ROW)
@@ -194,7 +194,10 @@ class Board:
                     if not self.is_filled():
                         self = original.clone()
                     else:
-                        yield self
+                        if not first_transposed: # initialize the first_transposed Board to compare and avoid future transposes
+                            first_transposed = self.transpose()
+                        if not self.board == first_transposed.board:
+                            yield self
                 else:
                     self = original.clone()
             return
@@ -271,4 +274,4 @@ def transpose_test():
     print(trans)
 
 if __name__ == "__main__":
-    is_valid_test()
+    transpose_test()
