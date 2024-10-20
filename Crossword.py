@@ -80,7 +80,7 @@ def main():
                     else:
                         print("please enter a valid string: 'y' or 'n'")
                 break
-            print("Sorry, there are no other valid boards with these words")
+            print("Sorry, there are no more valid boards with these words")
             break
 
 def broken_line_test():
@@ -92,15 +92,19 @@ def broken_line_test():
 
 def init_test():
     d = Crossword(4, ["scam", "tone"])
+    print(d)
 
 def init_test2():
     c = Crossword(4, ["gana", "girn"])
+    print(c)
 
 def init_test3():
     b = Crossword(3, ["can", "age"])
+    print(b)
 
 def init_test4():
     b = Crossword(4, ["eggs", "pain"])
+    print(b)
 
 def whats_common_words():
     b = Crossword(4, ["eggs", "pain"])

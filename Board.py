@@ -15,9 +15,13 @@ class Board:
     # INSTANCE METHODS
     # get(row, col) -> str: returns the entry at row and col indices
     # is_valid() -> bool: returns whether the partially-completed board is valid, considering common_words
-    # insert(char, row, col) -> None: inserts char at row and col indices
+    # insert_char(char, row, col) -> None: inserts char at row and col indices
+    # insert_word(word, row, col, Board.DIRECTION) -> None: inserts word at row and col indices in the given direction
     # clone() -> Board: returns a copy of the board
     # transpose() -> Board: returns a transposed copy of the board
+    # is_filled() -> bool: returns whether the board is filled with characters, or if any are '0'
+    # generate_board(word) -> Board: yields the potentially valid boards from adding word to self
+    # fill_board(row: int) -> Board: yields completed boards with words from common_words
 
     def __init__(self, size, cols=None, rows=None, board=None, common_words=None):
         self.common_words = common_words
@@ -186,25 +190,21 @@ class Board:
             potential_words = [word for word in potential_words if row_word[i] == '0' or word[i] == row_word[i]]
         
         original = self.clone()
-        first_transposed = None
         if row_index == 0:
             for potential_word in potential_words:
                 self.insert_word(potential_word, 0, 0, Board.ROW)
-                if self.is_valid([row_index], range(self.size)): # FIX THIS
+                if self.is_valid([row_index], range(self.size)):
                     if not self.is_filled():
                         self = original.clone()
                     else:
-                        if not first_transposed: # initialize the first_transposed Board to compare and avoid future transposes
-                            first_transposed = self.transpose()
-                        if not self.board == first_transposed.board:
-                            yield self
+                        yield self
                 else:
                     self = original.clone()
             return
         else:
             for potential_word in potential_words:
                 self.insert_word(potential_word, row_index, 0, Board.ROW)
-                if self.is_valid([row_index], range(self.size)): # FIX THIS
+                if self.is_valid([row_index], range(self.size)):
                     yield from self.fill_board(row - 1)
                 self = original.clone()
        
@@ -241,6 +241,10 @@ def insert_test():
     b.insert_word("age", 0, 1, Board.COLUMN)
     b.insert_word("ago", 1, 0, Board.ROW)
     print(b)
+
+    # c a n
+    # a g e
+    # n e w
 
 def insert_char_test():
     b = Board(3)
