@@ -28,7 +28,7 @@ class Crossword:
                 rowString += " "
             rowString += "\n"
             
-        return rowString
+        return rowString=
     
     
 
