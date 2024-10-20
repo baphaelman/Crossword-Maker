@@ -11,22 +11,6 @@ class Crossword:
         self.important_words = important_words
 
         self.board = Board(size)
-        original_board = self.board.clone()
-
-        important_words_generator = self.insert_important_words(important_words)
-        while True:
-            try:
-                self.board = next(important_words_generator)
-                self.board.words = important_words
-            except StopIteration:
-                print("There are no valid crosswords with these words! Please try others")
-                break
-            filled_board =  self.board.fill_board(size)
-            if filled_board:
-                self.board = filled_board
-                break
-            else:
-                self.board = original_board.clone()
     
     def insert_important_words(self, words_list):
         if len(words_list) == 1:
@@ -56,11 +40,47 @@ class Crossword:
     
 
 def main():
-    b = Crossword(3, [])
-    b.board.insert_char("f" , 1, 2)
-    generator = b.board.generate_board("can")
-    for i in generator:
-        print(i)
+    size = int(input("Enter the size of the crossword: "))
+    words_input = input("Enter your desired words separated by spaces: ")
+    important_words = words_input.split()
+
+    crossword = Crossword(size, important_words)
+
+    important_words_generator = crossword.insert_important_words(important_words)
+    while True:
+        # try generating feasible important_words board
+        try:
+            crossword.board = next(important_words_generator)
+            crossword.board.words = important_words
+        except StopIteration:
+            print("There are no valid crosswords with these words! Please try others")
+            break
+
+        # try filling board
+        filled_board_generator =  crossword.board.fill_board(size)
+        try:
+            filled_board = next(filled_board_generator)
+        except StopIteration:
+            print("There are no valid crosswords with these words! Please try others")
+
+        crossword.board = filled_board
+        print(crossword.board)
+        another_board = input("Are you satisfied with this board? (y/n) ")
+        while True:
+            if another_board == "n":
+                try:
+                    filled_board = next(filled_board_generator)
+                    crossword.board = filled_board
+                    break
+                except StopIteration:
+                    print("Sorry! There are no more valid crosswords")
+                    return
+            elif another_board == "y":
+                print("Happy crosswording!")
+                return
+            else:
+                print("please enter a valid string: 'y' or 'n'")
+                another_board = input("Are you satisfied with this board? (y/n) ")
 
 def broken_line_test():
     b = Crossword(4, [])
@@ -70,12 +90,16 @@ def broken_line_test():
         print(i)
 
 def init_test():
-    # b = Crossword(3, ["can", "age"])
-    c = Crossword(4, ["eggs", "pain"])
-    # print(b)
-    print(c)
+    d = Crossword(4, ["scam", "tone"])
+
+def init_test2():
+    c = Crossword(4, ["gana", "girn"])
+
+def init_test3():
+    b = Crossword(3, ["can", "age"])
+
+def init_test4():
+    b = Crossword(4, ["eggs", "pain"])
 
 if __name__ == "__main__":
-    # main()
-    # broken_line_test()
-    init_test()
+    main()

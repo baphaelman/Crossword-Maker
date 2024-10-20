@@ -60,12 +60,13 @@ class Board:
     
     def __repr__(self):
         rowString = ""
-        for  i in range(self.size):
+        for i in range(self.size):
             for j in range(self.size):
                 rowString += str(self.get(i, j))
                 rowString += " "
-            rowString += "\n"
-            
+            if (i < self.size - 1):
+                rowString += "\n"
+        
         return rowString
     
     # returns whether the partially completed board is valid, using words from common_words and lists rows_ and cols_indeces
@@ -193,7 +194,7 @@ class Board:
                     if not self.is_filled():
                         self = original.clone()
                     else:
-                        return self
+                        yield self
                 else:
                     self = original.clone()
             return
@@ -201,7 +202,7 @@ class Board:
             for potential_word in potential_words:
                 self.insert_word(potential_word, row_index, 0, Board.ROW)
                 if self.is_valid([row_index], range(self.size)): # FIX THIS
-                    return self.fill_board(row - 1)
+                    yield from self.fill_board(row - 1)
                 self = original.clone()
        
 
