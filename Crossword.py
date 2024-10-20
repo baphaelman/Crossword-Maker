@@ -19,6 +19,7 @@ class Crossword:
                 self.board = next(important_words_generator)
                 self.board.words = important_words
             except StopIteration:
+                print("There are no valid crosswords with these words! Please try others")
                 break
             filled_board =  self.board.fill_board(size)
             if filled_board:

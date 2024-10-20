@@ -156,16 +156,13 @@ class Board:
                         valid = False
                 if valid:
                     new_board = board.clone()
-                    rows_indices = []
                     for k in range (0, len(word)):
                         new_board.insert_char(word[k], j + k, col)
-                        rows_indices.append(j + k)
-                    if new_board.is_valid([rows_indices], [col]):
+                    if new_board.is_valid(range(self.size), [col]):
                         yield new_board
                         
         #word is across
         for i in range (0, len(board.rows)):
-            
             for j in range (0, len(board.cols) - len(word) + 1):
                 valid = True
                 for k in range (0, len(word)):
@@ -176,7 +173,7 @@ class Board:
                     for k in range (0, len(word)):
                         new_board.insert_char(word[k], i,  j + k)
                         
-                    if new_board.is_valid():
+                    if new_board.is_valid([i], range(self.size)):
                         yield new_board
 
     def fill_board(self, row):
@@ -192,7 +189,7 @@ class Board:
         if row_index == 0:
             for potential_word in potential_words:
                 self.insert_word(potential_word, 0, 0, Board.ROW)
-                if self.is_valid():
+                if self.is_valid([row_index], range(self.size)): # FIX THIS
                     if not self.is_filled():
                         self = original.clone()
                     else:
@@ -203,7 +200,7 @@ class Board:
         else:
             for potential_word in potential_words:
                 self.insert_word(potential_word, row_index, 0, Board.ROW)
-                if self.is_valid():
+                if self.is_valid([row_index], range(self.size)): # FIX THIS
                     return self.fill_board(row - 1)
                 self = original.clone()
        
