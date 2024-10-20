@@ -140,8 +140,8 @@ class Board:
                     new_board = board.clone()
                     for k in range (0, len(word)):
                         new_board.insert_char(word[k], j + k, i)
-                    # if new_board.valid_board():
-                    yield new_board
+                    if new_board.valid_board():
+                        yield new_board
                         
         #word is across
         for i in range (0, len(board.rows)):
@@ -156,8 +156,8 @@ class Board:
                     for k in range (0, len(word)):
                         new_board.insert_char(word[k], i,  j + k)
                         
-                    #new_board.valid_board():
-                    yield new_board
+                    if new_board.valid_board():
+                        yield new_board
        
 
 def main():
