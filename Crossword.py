@@ -50,7 +50,7 @@ class Crossword:
                 rowString += " "
             rowString += "\n"
             
-        return rowString=
+        return rowString
     
     
 
@@ -70,7 +70,7 @@ def broken_line_test():
 
 def init_test():
     # b = Crossword(3, ["can", "age"])
-    c = Crossword(4, ["eggs", "pain"])
+    c = Crossword(4, ["eats", "ants"])
     # print(b)
     print(c)
 
