@@ -11,6 +11,11 @@ class Crossword:
         self.important_words = important_words
 
         self.board = Board(size)
+
+        for important_word in important_words:
+            generator = self.board.generate_board(important_word)
+            while generator.hasNext():
+                self.board = next(generator)
     
     def __repr__(self):
         rowString = ""
@@ -26,22 +31,23 @@ class Crossword:
 
 def main():
     b = Crossword(3, [])
-    # print(b.board)
-    # b.board.insert_char("f" , 2, 3)
-    # print(b.board)
+    b.board.insert_char("f" , 1, 2)
     generator = b.board.generate_board("can")
-    print(next(generator))
-    print(next(generator))
-    print(next(generator))
-    print(next(generator))
-    print(next(generator))
-    print(next(generator))
-    
+    for i in generator:
+        print(i)
+
+def broken_line_test():
+    b = Crossword(4, [])
+    b.board.insert_char("#", 1, 1)
+    generator = b.board.generate_board("can")
+    for i in generator:
+        print(i)
+
+def init_test():
+    b = Crossword(3, ["can", "age"])
+    print(b)
 
 if __name__ == "__main__":
-    main()
-
-
-
-
-
+    # main()
+    # broken_line_test()
+    init_test()

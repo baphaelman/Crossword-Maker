@@ -43,20 +43,13 @@ class Board:
             for _ in range(size):
                 word += "0"
             
-            for _ in range(1, size + 1):
-                self.cols.append(word)
+            self.cols = [word for _ in range(size)]
 
             # initialize rows
             self.rows = list(self.cols)
 
             # initialize board with # along border, 0 in the center
-            self.board = []
-            row_builder = []
-            for _ in range(size):
-                row_builder.append("0")
-            
-            for _ in range(size):
-                self.board.append(list(row_builder))
+            self.board = [['0' for _ in range(size)] for _ in range(size)]
     
     
     # returns character at row and col
@@ -173,8 +166,6 @@ def main():
     rows = ["adg", "beh", "cfi"]
     b = Board(3, cols, rows)
     print(b)
-    b.valid_cols()
-    print(b.cols)
 
 def valid_test():
     bad_cols = ["car", "ago", "0qz"]
@@ -189,12 +180,6 @@ def valid_test():
 
     c = Board(3)
     print(c.valid_board())
-
-def valid_test2():
-    cols = ["car", "ago", "new"]
-    rows = ["can", "age", "row"]
-    b = Board(3, cols, rows)
-    print(b.valid_board())
 
 def insert_test():
     cols = ["c00", "a00", "n00"]
@@ -214,5 +199,4 @@ def insert_char_test():
 
 
 if __name__ == "__main__":
-    valid_test()
-    valid_test2()
+    insert_char_test()
