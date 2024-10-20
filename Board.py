@@ -215,7 +215,9 @@ def is_valid_test():
     bad_cols = ["car", "ago", "0qz"]
     bad_rows = ["ca0", "agq", "roz"]
     bad_b = Board(3, bad_cols, bad_rows)
-    print('expected False: ', bad_b.is_valid([1], [2]))
+    print('expected True: ', bad_b.is_valid([0], [0, 1]))
+    print('expected False: ', bad_b.is_valid([0, 1], [0, 1]))
+    print('expected False: ', bad_b.is_valid([0, 1, 2], [0, 1, 2]))
 
     cols = ["car", "ago", "new"]
     rows = ["can", "age", "row"]
