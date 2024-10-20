@@ -12,6 +12,7 @@ class Board:
     # self.cols: list of strings representing columns ["happy", "j00ky", ...]
     # self.rows: list of strings representing rows
     # self.size: nxn size of board
+    # self.words: list of words added to the board
 
     # INSTANCE METHODS
     # get(row, col) -> str: returns the entry at row and col indices
@@ -22,6 +23,7 @@ class Board:
 
     def __init__(self, size, cols=None, rows=None, board=None):
         self.size = size
+        self.words = []
         if cols and rows: # inputting existing board
             self.cols = cols
             self.rows = rows
@@ -171,7 +173,7 @@ class Board:
         row_word = self.rows[row_index]
 
         # filtering common_words
-        potential_words = [word for word in common_words if len(word) == self.size]
+        potential_words = [word for word in common_words if len(word) == self.size and word not in self.words]
         for i in range(len(row_word)):
             potential_words = [word for word in potential_words if row_word[i] == '0' or word[i] == row_word[i]]
         
@@ -181,14 +183,8 @@ class Board:
                 self.insert_word(potential_word, 0, 0, Board.ROW)
                 if self.is_valid():
                     if not self.is_filled():
-                        print("this ain't full dummy")
                         self = original.clone()
                     else:
-                        print('printing')
-                        print(self.is_filled())
-                        print(self)
-                        print(self.cols)
-                        print(self.rows)
                         return self
                 else:
                     self = original.clone()
