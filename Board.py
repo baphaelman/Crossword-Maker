@@ -82,8 +82,7 @@ class Board:
         # splits self.cols into each word
         col_words = []
         for word in self.cols:
-            col_words.append(word.split("#"))
-        print(col_words)
+            col_words.extend(word.split("#"))
         
         # checks if each word is potentially valid
         for word in col_words:
@@ -195,7 +194,6 @@ def valid_test2():
     cols = ["car", "ago", "new"]
     rows = ["can", "age", "row"]
     b = Board(3, cols, rows)
-    print(b)
     print(b.valid_board())
 
 def insert_test():
