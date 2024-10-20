@@ -11,19 +11,38 @@ class Crossword:
         self.important_words = important_words
 
         self.board = Board(size)
+        original_board = self.board.clone()
 
-        self.board = next(self.insert_important_words(important_words))
+        important_words_generator = self.insert_important_words(important_words)
+        while True:
+            try:
+                self.board = next(important_words_generator)
+            except StopIteration:
+                break
+            filled_board =  self.board.fill_board(size)
+            if filled_board:
+                self.board = filled_board
+                break
+            else:
+                self.board = original_board.clone()
+
+
+        self.board = next(important_words_generator)
     
     def insert_important_words(self, words_list) -> 'Board':
         if len(words_list) == 1:
             yield from self.board.generate_board(words_list[0])
-        word = words_list[0]
-        generator = self.board.generate_board(word)
-        original = self.board.clone()
-        while True:
-            self.board = next(generator)
-            yield from self.insert_important_words(words_list[1:])
-            self.board = original
+        else:
+            word = words_list[0]
+            generator = self.board.generate_board(word)
+            original = self.board.clone()
+            while True:
+                try:
+                    self.board = next(generator)
+                    yield from self.insert_important_words(words_list[1:])
+                    self.board = original
+                except StopIteration:
+                    break
     
     def __repr__(self):
         rowString = ""
@@ -53,7 +72,9 @@ def broken_line_test():
 
 def init_test():
     b = Crossword(3, ["can", "age"])
+    # c = Crossword(4, ["eggs", "pain"])
     print(b)
+    # print(c)
 
 if __name__ == "__main__":
     # main()
