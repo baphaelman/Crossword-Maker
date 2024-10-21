@@ -2,6 +2,7 @@
 - [x] yield important words placements
 - [x] if the user doesn't like the board they're given, they can ask for the next one
 - [x] return (or print) "this isn't possible! please try other words." instead of an empty board
+- [ ] prompting words in a different order yield different results?? ("dogs cats" vs "cats dogs")
 
 # Board
 - [x] initialize Board with rows and columns
